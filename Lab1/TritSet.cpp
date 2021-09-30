@@ -109,27 +109,11 @@ size_t Tritset::f_capacity() const {
     return array_.size() * Trit_U_Int;
 }
 
-/*unsigned  Tritset::_fill_value(Trit val) { // попробовать просто записать 0
-    unsigned elem = static_cast<unsigned>(trit_pack::U);;
-    switch (val) {
-    case Trit::F:
-        elem = static_cast<unsigned>(trit_pack::F);
-        break;
-    case Trit::T:
-        elem = static_cast<unsigned>(trit_pack::T);
-        break;
-    }
-    unsigned res = 0;
-    for (int i = 0; i < Trit_U_Int; i++)
-        res |= elem << (i * 2);
-    return res;
-}*/
-
 void Tritset::extend(const size_t new_size) {
     size_t needed = new_size / Trit_U_Int;
     needed += ((new_size % Trit_U_Int) ? 1 : 0);
     if (needed > array_.size())
-        array_.resize(needed,0/* _fill_value(Trit::U)*/);
+        array_.resize(needed, 0);
 }
 
 std::string Tritset::to_string() const {
