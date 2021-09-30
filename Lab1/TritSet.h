@@ -17,7 +17,6 @@ class Tritset
 private:
     std::vector<unsigned> array_;
     int last_;
-    unsigned int capacity;
 
     
 
@@ -46,7 +45,7 @@ public:
     Tritset operator|(const Tritset& other);
 
     Trit operator[](const int index) const;
-    TritsetProxy operator[](const int index);   // новый уровень абстракции
+    TritsetProxy operator[](const int index);   
 
     std::string to_string() const;
 };
@@ -74,15 +73,15 @@ public:
 
     void set_value(const Trit& value);
 
-    virtual TritsetProxy& operator&=(const Trit& other);
+    TritsetProxy& operator&=(const Trit& other);
 
-    virtual TritsetProxy& operator|=(const Trit& other);
+    TritsetProxy& operator|=(const Trit& other);
 
     TritsetProxy& operator=(Trit const& t);
 
-    virtual bool operator==(const TritsetProxy& other);
+    bool operator==(const TritsetProxy& other);
 
-    virtual TritsetProxy& operator=(const TritsetProxy& other); // всё поломало , накдо сделать a[1]=Trit(T)
+    TritsetProxy& operator=(const TritsetProxy& other); 
 };
 
 

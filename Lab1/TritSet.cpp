@@ -9,11 +9,9 @@ Tritset::Tritset() //конструктор
    last_ = -1;
 }
 
-Tritset::Tritset(const unsigned int size) {    //конструктор
+Tritset::Tritset(unsigned int size) {    //конструктор
     last_ = (int)size - 1;
-    /*size_t needed = size / Trit_U_Int;
-    needed += ((size % Trit_U_Int) ? 1 : 0);
-    array_.resize(needed, 0);*/
+    
 }
 
 Tritset::~Tritset()  // деструктор
@@ -22,7 +20,6 @@ Tritset::~Tritset()  // деструктор
 
 Tritset::Tritset(const Tritset& other)       // копирование
     : array_(other.array_), last_(other.last_) {
-   // shrink();
 }
 
 size_t Tritset::getsize() const          // размер
@@ -41,7 +38,7 @@ void Tritset::shrink()                 // удалить нули с конца
         last_ = -1;
     }
     update();
-    array_.resize(last_+1);                    // как работает resize? // должен ли изменится last_?// по иде всё ок// переписанно через update
+    array_.resize(last_+1);
 }
 
 Trit Tritset::operator[](const int index) const {
@@ -112,7 +109,7 @@ size_t Tritset::f_capacity() const {
     return array_.size() * Trit_U_Int;
 }
 
-unsigned  Tritset::_fill_value(Trit val) { // попробовать просто записать 0
+/*unsigned  Tritset::_fill_value(Trit val) { // попробовать просто записать 0
     unsigned elem = static_cast<unsigned>(trit_pack::U);;
     switch (val) {
     case Trit::F:
@@ -121,21 +118,18 @@ unsigned  Tritset::_fill_value(Trit val) { // попробовать просто записать 0
     case Trit::T:
         elem = static_cast<unsigned>(trit_pack::T);
         break;
-    /*case Trit::U:
-        elem = static_cast<unsigned>(trit_pack::U);
-        break;*/
     }
     unsigned res = 0;
     for (int i = 0; i < Trit_U_Int; i++)
         res |= elem << (i * 2);
     return res;
-}
+}*/
 
 void Tritset::extend(const size_t new_size) {
     size_t needed = new_size / Trit_U_Int;
     needed += ((new_size % Trit_U_Int) ? 1 : 0);
     if (needed > array_.size())
-        array_.resize(needed, _fill_value(Trit::U));
+        array_.resize(needed,0/* _fill_value(Trit::U)*/);
 }
 
 std::string Tritset::to_string() const {
@@ -156,7 +150,7 @@ std::string Tritset::to_string() const {
 
                                       /*TritsetProxy*/
 Trit TritsetProxy::get_value() const {
-    if (index >= tritset->f_capacity() || tritset->array_.size()* Trit_U_Int <= index)
+    if (index >= tritset->f_capacity())
         return Trit(Trit::U);
     int value = tritset->array_[index / Trit_U_Int];
     value >>= 2 * (index % Trit_U_Int);           // сдвигаются значения влево 110/11/011-> 000110/11/
@@ -169,7 +163,7 @@ Trit TritsetProxy::get_value() const {
 }
 
 void TritsetProxy::set_value(const Trit& value) {
-    if (index >= tritset->f_capacity() || tritset->array_.size() * Trit_U_Int <=index) {
+    if (index >= tritset->f_capacity()) {
         if (value == Trit::U)
             return;
         tritset->extend(index + 1);

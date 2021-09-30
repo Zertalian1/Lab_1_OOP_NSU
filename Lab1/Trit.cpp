@@ -70,7 +70,7 @@ Trit operator |(Trit a, Trit b)
 
 Trit operator !(Trit a)
 {
-    Trit b;
+    Trit b = Trit::U;
     switch (a)
     {
     case Trit::U:
@@ -86,3 +86,4 @@ Trit operator !(Trit a)
 
     return b;
 }
+
