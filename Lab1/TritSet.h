@@ -31,7 +31,6 @@ public:
     size_t length() const;
     
     size_t f_capacity() const;
-    unsigned  _fill_value(Trit val);
     void extend(const size_t new_size);
 
 
